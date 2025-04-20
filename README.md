@@ -4,14 +4,14 @@ A minimalist Go library for interacting with LLM APIs. One-line integration with
 
 ## Features
 
-- 🚀 **Simple API** - Consistent interface across all providers
-- 🔌 **Multiple Providers** - Support for OpenAI, Anthropic, and more
-- 🧩 **Modular Design** - Easy to extend with new providers
-- 🔄 **Streaming Support** - Efficient handling of streaming responses
-- 🧮 **Embeddings** - Generate embeddings for semantic search
-- 🔍 **Reranking** - Improve search result relevance (for supported providers)
-- ⚙️ **Configurable** - Customize behavior with options
-- 📊 **Observability** - Monitor usage and performance
+- 🚀 **Simple API** - Consistent interface across all providers (Pending)
+- 🔌 **Multiple Providers** - Support for OpenAI, Anthropic, and more (Pending)
+- 🧩 **Modular Design** - Easy to extend with new providers (Pending)
+- 🔄 **Streaming Support** - Efficient handling of streaming responses (Pending)
+- 🧮 **Embeddings** - Generate embeddings for semantic search (Pending)
+- 🔍 **Reranking** - Improve search result relevance (for supported providers) (Pending)
+- ⚙️ **Configurable** - Customize behavior with options (Pending)
+- 📊 **Observability** - Monitor usage and performance (Pending)
 
 ## Installation
 
