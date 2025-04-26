@@ -5,9 +5,16 @@ import (
 	"context"
 )
 
+type Role string
+
+const (
+	USER      = "user"
+	ASSISTANT = "assistant"
+)
+
 // Message represents a message in a conversation
 type Message struct {
-	Role    string
+	Role    Role
 	Content string
 }
 
@@ -27,12 +34,11 @@ type Choice struct {
 
 // Request represents a text generation request
 type Request struct {
-	Model          string
+	Model          string //Change model in runtime in b/w conv based on some logic as well
 	Messages       []Message
 	MaxTokens      int
 	Temperature    float64
 	TopP           float64
-	Stream         bool
 	Stop           []string
 	User           string
 	ProviderParams map[string]interface{}
@@ -44,8 +50,13 @@ type Response struct {
 	Object  string
 	Created int64
 	Model   string
-	Choices []Choice
+	Content string // Single response content
 	Usage   TokenUsage
+}
+
+type Config struct {
+	ApiKey string
+	Model  string
 }
 
 // Generator defines the interface for text generation

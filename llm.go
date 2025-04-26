@@ -4,11 +4,13 @@ package gollm
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/parikxxit/go-llm/embedder"
 	"github.com/parikxxit/go-llm/generator"
 	"github.com/parikxxit/go-llm/reranker"
+	"github.com/rs/zerolog"
 )
 
 // Client represents a gollm client for interacting with LLMs
@@ -22,6 +24,7 @@ type Client struct {
 	fallbackReranker  []reranker.Reranker
 	timeout           time.Duration
 	debug             bool
+	logger            zerolog.Logger
 }
 
 // NewClient creates a new gollm client with the specified LLM implementation
@@ -49,6 +52,11 @@ func NewClient(llm generator.Generator, opts ...Option) *Client {
 	for _, opt := range opts {
 		opt(client)
 	}
+	// Initialize logger with default settings and generator name
+	client.logger = zerolog.New(os.Stdout).With().
+		Timestamp().
+		Str("generator", client.llm.GetName()).
+		Logger()
 
 	return client
 }
@@ -89,7 +97,7 @@ func (c *Client) Generate(ctx context.Context, request *generator.Request) (*gen
 	}
 
 	if c.debug {
-		// TODO: Add debug logging
+		c.logger.Info().Msgf("Generating Response for req:%s", request.Messages[0].Content)
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, c.timeout)
@@ -111,7 +119,7 @@ func (c *Client) GenerateStream(ctx context.Context, request *generator.Request)
 	}
 
 	if c.debug {
-		// TODO: Add debug logging
+		c.logger.Info().Msgf("started streaming req with msg:%s", request.Messages[0].Content)
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, c.timeout)
@@ -133,7 +141,7 @@ func (c *Client) Embed(ctx context.Context, request *embedder.Request) (*embedde
 	}
 
 	if c.debug {
-		// TODO: Add debug logging
+		c.logger.Info().Msgf("embedding: %s with embedder: %s", request.Model, request.Input[0])
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, c.timeout)
@@ -155,7 +163,7 @@ func (c *Client) Rerank(ctx context.Context, request *reranker.Request) (*rerank
 	}
 
 	if c.debug {
-		// TODO: Add debug logging
+		c.logger.Info().Msgf("reranking matches")
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, c.timeout)
