@@ -5,11 +5,16 @@ import (
 	"context"
 )
 
-type Model string
+type Role string
+
+const (
+	USER      = "user"
+	ASSISTANT = "assistant"
+)
 
 // Message represents a message in a conversation
 type Message struct {
-	Role    string
+	Role    Role
 	Content string
 }
 
@@ -29,7 +34,7 @@ type Choice struct {
 
 // Request represents a text generation request
 type Request struct {
-	Model          Model //Change model in runtime in b/w conv based on some logic as well
+	Model          string //Change model in runtime in b/w conv based on some logic as well
 	Messages       []Message
 	MaxTokens      int
 	Temperature    float64
@@ -44,8 +49,8 @@ type Response struct {
 	ID      string
 	Object  string
 	Created int64
-	Model   Model
-	Choices []Choice
+	Model   string
+	Content string // Single response content
 	Usage   TokenUsage
 }
 
@@ -63,5 +68,5 @@ type Generator interface {
 	GenerateStream(ctx context.Context, req *Request) (<-chan *Response, error)
 
 	// GetName returns the name of the implementation
-	GetName() Model
+	GetName() string
 }
