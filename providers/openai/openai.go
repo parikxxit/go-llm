@@ -21,6 +21,7 @@ type OpenAI struct {
 	Model  string
 }
 
+// Should we return error?
 func NewOpenAI(cfg generator.Config) *OpenAI {
 	return &OpenAI{
 		Client: openai.NewClient(
